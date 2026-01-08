@@ -121,7 +121,7 @@ app.add_handler(CommandHandler('gpt', gpt))
 app.add_handler(CommandHandler('random', random))
 app.add_handler(CommandHandler('quiz', quiz))
 app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, text_handler))
-# Зарегистрировать обработчик кнопки можно так:
+# You can register a button handler like this:
 # app.add_handler(CallbackQueryHandler(app_button, pattern='^app_.*'))
 app.add_handler(CallbackQueryHandler(random_button, pattern='^random_.*'))
 app.add_handler(CallbackQueryHandler(quiz_button, pattern='^quiz_.*'))
