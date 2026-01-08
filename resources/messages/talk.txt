@@ -1,8 +1,9 @@
-Выберите известную личность, с которой хотите поговорить:
+Choose a famous personality you would like to talk to:
 
-*Список доступных личностей:*
-1. Курт Кобейн - Солист группы Nirvana 🎸
-4. Елизавета II - Королева Соединённого Королевства 👑
-3. Джон Толкиен - Автор книги "Властелин Колец" 📖
-4. Фридрих Ницше - Философ 🧠
-5. Стивен Хокинг - Физик 🔬
+List of available personalities:
+
+1. **Kurt Cobain** — Lead singer of the band *Nirvana* 🎸
+2. **Elizabeth II** — Queen of the United Kingdom 👑
+3. **J. R. R. Tolkien** — Author of *The Lord of the Rings* 📖
+4. **Friedrich Nietzsche** — Philosopher 🧠
+5. **Stephen Hawking** — Physicist 🔬

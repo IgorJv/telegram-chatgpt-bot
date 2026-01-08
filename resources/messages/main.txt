@@ -1,9 +1,9 @@
-Привет! Этот бот совмещает с себе удобство _Telegram_ и мощь *ChatGPT*
+Hi! This bot combines the convenience of _Telegram_ with the power of *ChatGPT*
 
-*Полезные команды и ссылки:*
-1. /start — главное меню бота
-2. /random - узнать рандомный факт · 🧠
-3. /gpt - Задать вопрос ChatGPT · 🤖
-4. /talk - поговорить с известной личностью · 👤
-5. /quiz - проверить свои знания ❓
+*Useful commands and links:*
 
+1. /start — main bot menu
+2. /random — get a random fact · 🧠
+3. /gpt — ask ChatGPT a question · 🤖
+4. /talk — talk to a famous person · 👤
+5. /quiz — test your knowledge ❓
