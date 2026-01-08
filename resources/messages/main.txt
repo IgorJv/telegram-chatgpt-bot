@@ -1,0 +1,9 @@
+Hi! This bot combines the convenience of _Telegram_ with the power of *ChatGPT*
+
+*Useful commands and links:*
+
+1. /start — main bot menu
+2. /random — get a random fact · 🧠
+3. /gpt — ask ChatGPT a question · 🤖
+4. /talk — talk to a famous person · 👤
+5. /quiz — test your knowledge ❓

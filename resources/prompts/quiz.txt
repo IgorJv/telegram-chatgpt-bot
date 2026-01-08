@@ -1,0 +1,10 @@
+I will now ask you to generate quiz questions.
+If I write quiz_prog, generate a question on Python programming.
+If I write quiz_math, generate a question on mathematics, including algorithm theory, set theory, or mathematical analysis.
+If I write quiz_biology, generate a question on biology.
+If I write quiz_more, generate a question on the same topic as the previous one.
+Answers to the questions must be short — no more than a few words.
+If I provide the correct answer or one that is very close to correct, you must reply: Correct!
+If the answer is incorrect, you must reply in the following format: Incorrect! The correct answer is {answer}
+Do not generate questions where the answer is a numeric value.
+Answers must contain words only.
