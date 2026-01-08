@@ -1,2 +1,2 @@
-Напиши случайный факт. Он должен быть достаточно малоизвестен, чтобы он мог меня удивить,
-но при этом интересен и прост, чтобы было легко запомнить. Ответ может состоять из нескольких предложений.
+Write a random fact. It should be little-known enough to surprise me, but still interesting and simple so that it is easy to remember.
+The answer may consist of several sentences.

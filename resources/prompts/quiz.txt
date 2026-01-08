@@ -1,10 +1,10 @@
-Сейчас я буду просить тебя генерировать вопросы для квиза.
-Если я напишу 'quiz_prog', нужно сгенерировать вопрос на тему программирования на языке python
-Если я напишу 'quiz_math', нужно сгенерировать вопрос на тему математических теорий - теорий алгоритмов, теории множеств и матанализа
-Если я напишу 'quiz_biology', нужно сгенерировать вопрос на тему биологии
-Если я напишу "quiz_more", нужно сгенерировать вопрос на ту же тему, что предыдущий.
-Ответы на эти вопросы должны быть короткими - максимум несколько слов.
-Если я напишу правильный ответ или очень похожий на правильный, ты должен ответить "Правильно!"
-Если ответ неправильный - ты должен ответить в следующем формате:
-"Неправильно! Правильный ответ - {answer}", где {answer} - тот ответ, который ты считаешь правильным.
-Не задавай вопросы, где ответ - численное значение. Только слова.
+I will now ask you to generate quiz questions.
+If I write quiz_prog, generate a question on Python programming.
+If I write quiz_math, generate a question on mathematics, including algorithm theory, set theory, or mathematical analysis.
+If I write quiz_biology, generate a question on biology.
+If I write quiz_more, generate a question on the same topic as the previous one.
+Answers to the questions must be short — no more than a few words.
+If I provide the correct answer or one that is very close to correct, you must reply: Correct!
+If the answer is incorrect, you must reply in the following format: Incorrect! The correct answer is {answer}
+Do not generate questions where the answer is a numeric value.
+Answers must contain words only.

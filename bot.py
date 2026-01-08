@@ -74,8 +74,8 @@ async def random(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 quiz_data = {
     'task_1': 'sport',
-    'task_2': 'kino',
-    'task_3': 'nayka',
+    'task_2': 'cinema',
+    'task_3': 'science',
     'task_4': 'history'
 }
 
