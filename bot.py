@@ -38,7 +38,6 @@ app.add_handler(CommandHandler('start', start))
 
 # You can register a command handler like this:
 # app.add_handler(CommandHandler('command', handler_func))
-
 async def gpt_dialog(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_text = update.message.text
 
