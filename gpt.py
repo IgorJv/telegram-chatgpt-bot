@@ -40,3 +40,4 @@ class ChatGptService:
 
     async def send_answer(self, prompt_text: str, message_text: str) -> str:
         self.message_list.clear()
+        self.message_list.append({"role": "system", "content": prompt_text})
