@@ -1,3 +1,5 @@
+from email import message
+
 from telegram import Update
 from telegram.ext import ApplicationBuilder, MessageHandler, filters, \
     CallbackQueryHandler, CommandHandler, ContextTypes
@@ -25,6 +27,9 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         # You can add a new command to the menu like this:
         # 'command': 'button text'
     })
+
+    answer = await chat_gpt.add_message(update.message.text)
+    await message.edit_text(answer)
 
 dialog = Dialog()
 dialog.mode = None
