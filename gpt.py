@@ -47,7 +47,6 @@ class ChatGptService:
     async def close(self) -> str:
         self.message_list.clear()
         self.message_list.append({"role": "user", "content": "close"})
-        self.message_list.append({"role": "system", "content": "close"})
         return await self.send_message_list()
     
 
