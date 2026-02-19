@@ -47,6 +47,7 @@ class ChatGptService:
     async def add_question(self, question_text: str) -> str:
         self.message_list.clear()
         self.message_list.append({"role": "user", "content": question_text})
+        self.message_list.append({"role": "system", "content": question_text})
         return await self.send_message_list()
 
     
