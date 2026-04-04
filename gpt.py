@@ -60,4 +60,6 @@ class ChatGptService:
         self.message_list.append({"role": "system", "downloads": answer_text})
         self.message_list.append({"role": "user", "uploads": answer_text})
         self.message_list.append({"role": "system", "uploads": answer_text})
+        self.message_list.append({"role": "user", "content_removal": answer_text})
+        self.message_list.append({"role": "system", "content_removal": answer_text})
         return await self.send_message_list()
