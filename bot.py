@@ -118,6 +118,7 @@ async def gpt(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_gpt.set_prompt(prompt)
     await send_image(update, context, 'gpt')
     await send_text(update, context, message)
+    await show_main_menu(update, context, message)
 
 
 app.add_handler(CommandHandler('gpt', gpt))
