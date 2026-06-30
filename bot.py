@@ -119,9 +119,6 @@ async def gpt(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await send_image(update, context, 'gpt')
     await send_text(update, context, message)
     await show_main_menu(update, context, message)
-    #add answer
-    answer = await chat_gpt.add_message(update.message.text)
-    await message.edit_text(answer)
 
 app.add_handler(CommandHandler('gpt', gpt))
 app.add_handler(CommandHandler('random', random))
