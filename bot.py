@@ -120,6 +120,7 @@ async def gpt(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await send_text(update, context, message)
     await show_main_menu(update, context, message)
 # config
+# files
 app.add_handler(CommandHandler('gpt', gpt))
 app.add_handler(CommandHandler('random', random))
 app.add_handler(CommandHandler('quiz', quiz))
