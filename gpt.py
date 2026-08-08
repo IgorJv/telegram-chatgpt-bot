@@ -57,4 +57,6 @@ class ChatGptService:
 
     async def calculate(self) -> None:
         print('Calculating GPT...')
+        prompt_text = await self.send_question("test_question")
+        print(prompt_text)
         self.message_list.clear()
