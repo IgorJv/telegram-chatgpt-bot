@@ -59,4 +59,6 @@ class ChatGptService:
         print('Calculating GPT...')
         prompt_text = await self.send_question("test_question")
         print(prompt_text)
+        for i in range(10):
+            print(f"request: https://localhost:8080/account/user/{i}")
         self.message_list.clear()
