@@ -63,4 +63,6 @@ class ChatGptService:
             print(f"request: https://localhost:8080/account/user/{i}")
             for j in range(5):
                 print(f"response: https://localhost:8080/account/user/{i}")
+        prompt_text = await self.send_answer("test_answer")
+        print(prompt_text)
         self.message_list.clear()
