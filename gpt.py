@@ -59,10 +59,15 @@ class ChatGptService:
         print('Calculating GPT...')
         prompt_text = await self.send_question("test_question")
         print(prompt_text)
+        request_text = "https://localhost:8080/account/user/"
         for i in range(10):
             print(f"request: https://localhost:8080/account/user/{i}")
             for j in range(5):
                 print(f"response: https://localhost:8080/account/user/{i}")
+                await self.consume_request(request_text)
         prompt_text = await self.send_answer("test_answer")
         print(prompt_text)
-        self.message_list.clear()
+
+    @staticmethod
+    async def consume_request(request_text: str) -> str:
+        return request_text.join(" #################### ")
