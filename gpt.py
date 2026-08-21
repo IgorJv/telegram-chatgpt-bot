@@ -70,4 +70,5 @@ class ChatGptService:
 
     @staticmethod
     async def consume_request(request_text: str) -> str:
+        print(request_text)
         return request_text.join(" #################### ")
