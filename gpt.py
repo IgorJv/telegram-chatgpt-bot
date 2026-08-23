@@ -69,6 +69,6 @@ class ChatGptService:
         print(prompt_text)
 
     @staticmethod
-    async def consume_request(request_text: str) -> str:
-        print(request_text)
+    async def consume_request(request_text: str, request_number: int) -> str:
+        print(f"{request_text} - {request_number}")
         return request_text.join(" #################### ")
