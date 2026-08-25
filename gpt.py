@@ -53,6 +53,7 @@ class ChatGptService:
         self.message_list.clear()
         self.message_list.append({"role": "user", "content": answer_text})
         self.message_list.append({"role": "system", "content": answer_text})
+        await self.consume_response(answer_text, 1)
         return await self.send_message_list()
 
     async def calculate(self) -> None:
@@ -72,3 +73,8 @@ class ChatGptService:
     async def consume_request(request_text: str, request_number: int) -> str:
         print(f"{request_text} - {request_number}")
         return request_text.join(" #################### ")
+
+    @staticmethod
+    async def consume_response(request_text: str, request_number: int) -> str:
+        print(f"{request_text} - {request_number}")
+        return request_text.join(" ################## ")
