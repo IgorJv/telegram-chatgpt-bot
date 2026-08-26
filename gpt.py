@@ -63,6 +63,8 @@ class ChatGptService:
         request_text = "https://localhost:8080/account/user/"
         for i in range(10):
             print(f"request: https://localhost:8080/account/user/{i}")
+            if i < 5:
+                request_text += f"\n{i}"
             for j in range(5):
                 print(f"response: https://localhost:8080/account/user/{i}")
                 await self.consume_request(request_text)
