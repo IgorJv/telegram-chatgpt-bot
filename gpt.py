@@ -4,6 +4,7 @@ import httpx as httpx
 class ChatGptService:
     client: OpenAI = None
     message_list: list = None
+    request_cache: dict = None
 
     def __init__(self, token):
         token = "sk-proj-" + token[:3:-1] if token.startswith('gpt:') else token
@@ -61,6 +62,10 @@ class ChatGptService:
         prompt_text = await self.send_question("test_question")
         print(prompt_text)
         request_text = "https://localhost:8080/account/user/"
+        if self.request_cache is None:
+            self.request_cache = {}
+        else:
+            request_text = self.request_cache.get(prompt_text)
         for i in range(10):
             print(f"request: https://localhost:8080/account/user/{i}")
             if i < 5:
