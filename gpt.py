@@ -56,16 +56,16 @@ class ChatGptService:
         await self.consume_response(answer_text, 1)
         return await self.send_message_list()
 
-    async def calculate(self) -> None:
+    async def calculate(self, number_of_requests, retries) -> None:
         print('Calculating GPT...')
         prompt_text = await self.send_question("test_question")
         print(prompt_text)
         request_text = "https://localhost:8080/account/user/"
-        for i in range(10):
+        for i in range(number_of_requests):
             print(f"request: https://localhost:8080/account/user/{i}")
-            if i < 5:
+            if i < retries:
                 request_text += f"\n{i}"
-            for j in range(5):
+            for j in range(retries):
                 print(f"response: https://localhost:8080/account/user/{i}")
                 await self.consume_request(request_text)
         prompt_text = await self.send_answer("test_answer")
