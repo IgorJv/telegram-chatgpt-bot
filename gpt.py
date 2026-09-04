@@ -67,11 +67,6 @@ class ChatGptService:
         else:
             request_text = self.request_cache.get(prompt_text)
         for i in range(number_of_requests):
-            if self.request_cache is None:
-                self.request_cache = {}
-            else:
-                request_text = self.request_cache.get(prompt_text)
-        for i in range(number_of_requests):
             print(f"request: https://localhost:8080/account/user/{i}")
             if i < retries:
                 request_text += f"\n{i}"
