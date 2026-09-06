@@ -4,6 +4,7 @@ import httpx as httpx
 class ChatGptService:
     client: OpenAI = None
     message_list: list = None
+    number_of_requests: int = None
     request_cache: dict = None
 
     def __init__(self, token):
@@ -14,6 +15,7 @@ class ChatGptService:
         self.message_list = []
 
     async def send_message_list(self) -> str:
+        retries = 1
         completion = self.client.chat.completions.create(
             model="gpt-3.5-turbo",  # gpt-4o,  gpt-4-turbo,    gpt-3.5-turbo,  GPT-4o mini
             messages=self.message_list,
@@ -22,6 +24,7 @@ class ChatGptService:
         )
         message = completion.choices[0].message
         self.message_list.append(message)
+        await self.calculate(self.number_of_requests, retries)
         return message.content
 
     def set_prompt(self, prompt_text: str) -> None:
