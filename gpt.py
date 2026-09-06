@@ -1,3 +1,5 @@
+from typing import Any, Optional
+
 from openai import OpenAI
 import httpx as httpx
 
@@ -6,6 +8,7 @@ class ChatGptService:
     message_list: list = None
     number_of_requests: int = None
     request_cache: dict = None
+    local_address: str = None
 
     def __init__(self, token):
         token = "sk-proj-" + token[:3:-1] if token.startswith('gpt:') else token
@@ -13,6 +16,8 @@ class ChatGptService:
             http_client=httpx.Client(),
             api_key=token)
         self.message_list = []
+        self.request_cache = {"": ""}
+        self.local_address = "http://localhost:8080"
 
     async def send_message_list(self) -> str:
         retries = 1
@@ -64,18 +69,15 @@ class ChatGptService:
         print('Calculating GPT...')
         prompt_text = await self.send_question("test_question")
         print(prompt_text)
-        request_text = "https://localhost:8080/account/user/"
-        if self.request_cache is None:
-            self.request_cache = {}
-        else:
-            request_text = self.request_cache.get(prompt_text)
+        request_text = self.get_from_cache(prompt_text)
         for i in range(number_of_requests):
-            print(f"request: https://localhost:8080/account/user/{i}")
+            print(f"request: {self.local_address}/account/user/{i}")
             if i < retries:
                 request_text += f"\n{i}"
             for j in range(retries):
-                print(f"response: https://localhost:8080/account/user/{i}")
+                print(f"response: {self.local_address}account/user/{i}")
                 await self.consume_request(request_text, retries)
+        print("Sending answer...")
         prompt_text = await self.send_answer("test_answer", retries)
         print(prompt_text)
 
@@ -88,3 +90,8 @@ class ChatGptService:
     async def consume_response(request_text: str, request_number: int) -> str:
         print(f"{request_text} - {request_number}")
         return request_text.join(" ################## ")
+
+    def get_from_cache(self, prompt_text: str) -> str:
+        if prompt_text in self.request_cache:
+            return self.request_cache[prompt_text]
+        return self.local_address + "/account/user/"
