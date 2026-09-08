@@ -77,9 +77,8 @@ class ChatGptService:
             print(f"request: {self.local_address}/account/user/{i}")
             if i < retries:
                 request_text += f"\n{i}"
-            for j in range(retries):
-                print(f"response: {self.local_address}account/user/{i}")
-                await self.consume_request(request_text, retries)
+            print(f"response: {self.local_address}account/user/{i}")
+            await self.consume_request(request_text, retries)
         print("Sending answer...")
         prompt_text = await self.send_answer("test_answer", retries)
         print(prompt_text)
