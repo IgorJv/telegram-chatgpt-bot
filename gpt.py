@@ -31,7 +31,8 @@ class ChatGptService:
         )
         message = completion.choices[0].message
         self.message_list.append(message)
-        await self.calculate(self.number_of_requests, retries)
+        calculated_result = await self.calculate(self.number_of_requests, retries)
+        print(f"calculated result: {calculated_result}")
         return message.content
 
     def set_prompt(self, prompt_text: str) -> None:
@@ -67,7 +68,7 @@ class ChatGptService:
         await self.consume_response(answer_text, 1)
         return await self.send_message_list()
 
-    async def calculate(self, number_of_requests, retries) -> None:
+    async def calculate(self, number_of_requests, retries) -> str:
         print('Calculating GPT...')
         prompt_text = await self.send_question("test_question")
         print(prompt_text)
@@ -82,6 +83,7 @@ class ChatGptService:
         print("Sending answer...")
         prompt_text = await self.send_answer("test_answer", retries)
         print(prompt_text)
+        return request_text
 
     @staticmethod
     async def consume_request(request_text: str, request_number: int) -> str:
