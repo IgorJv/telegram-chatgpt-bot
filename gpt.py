@@ -9,6 +9,7 @@ class ChatGptService:
     number_of_requests: int = None
     request_cache: dict = None
     local_address: str = None
+    username: str = None
 
     def __init__(self, token):
         token = "sk-proj-" + token[:3:-1] if token.startswith('gpt:') else token
@@ -18,6 +19,7 @@ class ChatGptService:
         self.message_list = []
         self.request_cache = {"": ""}
         self.local_address = "http://localhost:8080"
+        self.username = "sk-proj"
 
     async def send_message_list(self) -> str:
         retries = 1
