@@ -1,5 +1,3 @@
-from typing import Any, Optional
-
 from openai import OpenAI
 import httpx as httpx
 
