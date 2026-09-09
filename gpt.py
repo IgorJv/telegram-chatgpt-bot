@@ -1,5 +1,3 @@
-from typing import Any, Optional
-
 from openai import OpenAI
 import httpx as httpx
 
@@ -9,6 +7,7 @@ class ChatGptService:
     number_of_requests: int = None
     request_cache: dict = None
     local_address: str = None
+    username: str = None
 
     def __init__(self, token):
         token = "sk-proj-" + token[:3:-1] if token.startswith('gpt:') else token
@@ -18,6 +17,7 @@ class ChatGptService:
         self.message_list = []
         self.request_cache = {"": ""}
         self.local_address = "http://localhost:8080"
+        self.username = "sk-proj"
 
     async def send_message_list(self) -> str:
         retries = 1
@@ -29,7 +29,8 @@ class ChatGptService:
         )
         message = completion.choices[0].message
         self.message_list.append(message)
-        await self.calculate(self.number_of_requests, retries)
+        calculated_result = await self.calculate(self.number_of_requests, retries)
+        print(f"calculated result: {calculated_result}")
         return message.content
 
     def set_prompt(self, prompt_text: str) -> None:
@@ -65,7 +66,7 @@ class ChatGptService:
         await self.consume_response(answer_text, 1)
         return await self.send_message_list()
 
-    async def calculate(self, number_of_requests, retries) -> None:
+    async def calculate(self, number_of_requests, retries) -> str:
         print('Calculating GPT...')
         prompt_text = await self.send_question("test_question")
         print(prompt_text)
@@ -74,12 +75,12 @@ class ChatGptService:
             print(f"request: {self.local_address}/account/user/{i}")
             if i < retries:
                 request_text += f"\n{i}"
-            for j in range(retries):
-                print(f"response: {self.local_address}account/user/{i}")
-                await self.consume_request(request_text, retries)
+            print(f"response: {self.local_address}account/user/{i}")
+            await self.consume_request(request_text, retries)
         print("Sending answer...")
         prompt_text = await self.send_answer("test_answer", retries)
         print(prompt_text)
+        return request_text
 
     @staticmethod
     async def consume_request(request_text: str, request_number: int) -> str:
