@@ -5,6 +5,7 @@ class ChatGptService:
     client: OpenAI = None
     message_list: list = None
     number_of_requests: int = None
+    retries: int = None
     request_cache: dict = None
     local_address: str = None
     username: str = None
@@ -45,7 +46,8 @@ class ChatGptService:
         self.message_list.clear()
         self.message_list.append({"role": "system", "content": prompt_text})
         self.message_list.append({"role": "user", "content": message_text})
-        calculated_result = await self.calculate(self.number_of_requests, retries)
+        self.retries = 2
+        calculated_result = await self.calculate(self.number_of_requests, self.retries)
         print(f"calculated result: {calculated_result}")
         return await self.send_message_list()
 
@@ -53,7 +55,8 @@ class ChatGptService:
         self.message_list.clear()
         self.message_list.append({"role": "system", "content": prompt_text})
         self.message_list.append({"role": "user", "content": message_text})
-        calculated_result = await self.calculate(self.number_of_requests, retries)
+        self.retries = 2
+        calculated_result = await self.calculate(self.number_of_requests, self.retries)
         print(f"calculated result: {calculated_result}")
         return await self.send_message_list()
 
