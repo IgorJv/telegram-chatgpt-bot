@@ -1,5 +1,16 @@
+import functools
+
 from openai import OpenAI
 import httpx as httpx
+
+
+def log_execution(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        print(f"{func.__name__} - {args}, {kwargs}")
+        return func(*args, **kwargs)
+
+    return wrapper
 
 class ChatGptService:
     client: OpenAI = None
@@ -20,6 +31,7 @@ class ChatGptService:
         self.local_address = "http://localhost:8080"
         self.username = "sk-proj"
 
+    @log_execution
     async def send_message_list(self) -> str:
         retries = 1
         completion = self.client.chat.completions.create(
@@ -34,14 +46,17 @@ class ChatGptService:
         print(f"calculated result: {calculated_result}")
         return message.content
 
+    @log_execution
     def set_prompt(self, prompt_text: str) -> None:
         self.message_list.clear()
         self.message_list.append({"role": "system", "content": prompt_text})
 
+    @log_execution
     async def add_message(self, message_text: str) -> str:
         self.message_list.append({"role": "user", "content": message_text})
         return await self.send_message_list()
 
+    @log_execution
     async def send_question(self, prompt_text: str, message_text: str) -> str:
         self.message_list.clear()
         self.message_list.append({"role": "system", "content": prompt_text})
@@ -51,6 +66,7 @@ class ChatGptService:
         print(f"calculated result: {calculated_result}")
         return await self.send_message_list()
 
+    @log_execution
     async def send_answer(self, prompt_text: str, message_text: str) -> str:
         self.message_list.clear()
         self.message_list.append({"role": "system", "content": prompt_text})
@@ -60,6 +76,7 @@ class ChatGptService:
         print(f"calculated result: {calculated_result}")
         return await self.send_message_list()
 
+    @log_execution
     async def add_question(self, question_text: str) -> str:
         self.message_list.clear()
         self.message_list.append({"role": "user", "content": question_text})
@@ -68,6 +85,7 @@ class ChatGptService:
         print(f"calculated result: {calculated_result}")
         return await self.send_message_list()
 
+    @log_execution
     async def add_answer(self, answer_text: str) -> str:
         self.message_list.clear()
         self.message_list.append({"role": "user", "content": answer_text})
@@ -77,6 +95,7 @@ class ChatGptService:
         print(f"calculated result: {calculated_result}")
         return await self.send_message_list()
 
+    @log_execution
     async def calculate(self, number_of_requests, retries) -> str:
         print('Calculating GPT...')
         prompt_text = await self.send_question("test_question")
