@@ -64,6 +64,8 @@ class ChatGptService:
         self.message_list.clear()
         self.message_list.append({"role": "user", "content": question_text})
         self.message_list.append({"role": "system", "content": question_text})
+        calculated_result = await self.calculate(self.number_of_requests, self.retries)
+        print(f"calculated result: {calculated_result}")
         return await self.send_message_list()
 
     async def add_answer(self, answer_text: str) -> str:
@@ -71,6 +73,8 @@ class ChatGptService:
         self.message_list.append({"role": "user", "content": answer_text})
         self.message_list.append({"role": "system", "content": answer_text})
         await self.consume_response(answer_text, 1)
+        calculated_result = await self.calculate(self.number_of_requests, self.retries)
+        print(f"calculated result: {calculated_result}")
         return await self.send_message_list()
 
     async def calculate(self, number_of_requests, retries) -> str:
