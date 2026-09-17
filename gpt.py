@@ -122,6 +122,7 @@ class ChatGptService:
         print(f"{request_text} - {request_number}")
         return request_text.join(" ################## ")
 
+    @log_execution
     def get_from_cache(self, prompt_text: str) -> str:
         if prompt_text in self.request_cache:
             return self.request_cache[prompt_text]
