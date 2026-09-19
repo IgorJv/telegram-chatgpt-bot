@@ -9,7 +9,6 @@ def log_execution(func):
     def wrapper(*args, **kwargs):
         print(f"{func.__name__} - {args}, {kwargs}")
         return func(*args, **kwargs)
-
     return wrapper
 
 class ChatGptService:
