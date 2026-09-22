@@ -29,10 +29,11 @@ class ChatGptService:
         self.request_cache = {"": ""}
         self.local_address = "http://localhost:8080"
         self.username = "sk-proj"
+        self.number_of_requests = 3
 
     @log_execution
     async def send_message_list(self) -> str:
-        retries = 1
+        retries = self.number_of_requests
         completion = self.client.chat.completions.create(
             model="gpt-3.5-turbo",  # gpt-4o,  gpt-4-turbo,    gpt-3.5-turbo,  GPT-4o mini
             messages=self.message_list,
@@ -60,7 +61,7 @@ class ChatGptService:
         self.message_list.clear()
         self.message_list.append({"role": "system", "content": prompt_text})
         self.message_list.append({"role": "user", "content": message_text})
-        self.retries = 2
+        self.retries = self.number_of_requests
         calculated_result = await self.calculate(self.number_of_requests, self.retries)
         print(f"calculated result: {calculated_result}")
         return await self.send_message_list()
@@ -70,7 +71,7 @@ class ChatGptService:
         self.message_list.clear()
         self.message_list.append({"role": "system", "content": prompt_text})
         self.message_list.append({"role": "user", "content": message_text})
-        self.retries = 2
+        self.retries = self.number_of_requests
         calculated_result = await self.calculate(self.number_of_requests, self.retries)
         print(f"calculated result: {calculated_result}")
         return await self.send_message_list()
