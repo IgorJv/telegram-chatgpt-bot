@@ -9,6 +9,7 @@ from util import load_message, load_prompt, send_text_buttons, send_text, \
     send_image, show_main_menu, Dialog, default_callback_handler
 
 
+@log_execution
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     dialog.mode = 'main'
 
@@ -42,6 +43,7 @@ app.add_handler(CommandHandler('start', start))
 
 # You can register a command handler like this:
 # app.add_handler(CommandHandler('command', handler_func))
+@log_execution
 async def gpt_dialog(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_text = update.message.text
 
@@ -51,7 +53,7 @@ async def gpt_dialog(update: Update, context: ContextTypes.DEFAULT_TYPE):
     answer = await chat_gpt.add_message(user_text)
     await message.edit_text(answer)
 
-
+@log_execution
 async def text_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     '''
         :param update:
