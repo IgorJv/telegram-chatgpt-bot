@@ -120,7 +120,7 @@ class ChatGptService:
     @staticmethod
     async def consume_response(request_text: str, request_number: int) -> str:
         print(f"{request_text} - {request_number}")
-        return request_text.join(" ################## ")
+        return request_text.join(" #################### ")
 
     @log_execution
     def get_from_cache(self, prompt_text: str) -> str:
