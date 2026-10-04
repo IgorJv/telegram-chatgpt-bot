@@ -118,9 +118,9 @@ class ChatGptService:
         return request_text.join(" #################### ")
 
     @staticmethod
-    async def consume_response(request_text: str, request_number: int) -> str:
-        print(f"{request_text} - {request_number}")
-        return request_text.join(" #################### ")
+    async def consume_response(response_text: str, response_number: int) -> str:
+        print(f"{response_text} - {response_number}")
+        return response_text.join(" #################### ")
 
     @log_execution
     def get_from_cache(self, prompt_text: str) -> str:
