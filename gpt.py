@@ -11,6 +11,15 @@ def log_execution(func):
         return func(*args, **kwargs)
     return wrapper
 
+def callback(result):
+    print(f"The calculation result is: {result}")
+
+def process_data(data, callback_func):
+    print(f"Processing data: {data}")
+    processed_result = data * 50
+    callback_func(processed_result)
+
+
 class ChatGptService:
     client: OpenAI = None
     message_list: list = None
@@ -110,6 +119,7 @@ class ChatGptService:
         print("Sending answer...")
         prompt_text = await self.send_answer("test_answer", retries)
         print(prompt_text)
+        process_data(self.number_of_requests, callback)
         return request_text
 
     @staticmethod
