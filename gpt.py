@@ -19,6 +19,8 @@ def process_data(data, callback_func):
     processed_result = data * 50
     callback_func(processed_result)
 
+def log_request(**kwargs):
+    print(f"Request: {kwargs}")
 
 class ChatGptService:
     client: OpenAI = None
@@ -115,6 +117,7 @@ class ChatGptService:
             if i < retries:
                 request_text += f"\n{i}"
             print(f"response: {self.local_address}account/user/{i}")
+            log_request(k=i, v=request_text)
             await self.consume_request(request_text, retries)
         print("Sending answer...")
         prompt_text = await self.send_answer("test_answer", retries)
