@@ -7,6 +7,7 @@ import httpx as httpx
 def log_execution(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
+        print(" #################### ")
         print(f"{func.__name__} - {args}, {kwargs}")
         return func(*args, **kwargs)
     return wrapper
