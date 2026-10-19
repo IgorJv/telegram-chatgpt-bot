@@ -21,6 +21,7 @@ def process_data(data, callback_func):
     callback_func(processed_result)
 
 def log_request(**kwargs):
+    print(f"Request: {kwargs}")
     for key, value in kwargs.items():
         print(f"{key}: {value}")
 
