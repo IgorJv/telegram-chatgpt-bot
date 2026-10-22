@@ -142,4 +142,5 @@ class ChatGptService:
     def get_from_cache(self, prompt_text: str) -> str:
         if prompt_text in self.request_cache:
             return self.request_cache[prompt_text]
+        print(f"{prompt_text} - {len(self.request_cache)}")
         return self.local_address + "/account/user/"
