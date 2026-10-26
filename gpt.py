@@ -9,6 +9,7 @@ def log_execution(func):
     def wrapper(*args, **kwargs):
         print(" #################### ")
         print(f"{func.__name__} - {args}, {kwargs}")
+        print(" #################### ")
         return func(*args, **kwargs)
     return wrapper
 
