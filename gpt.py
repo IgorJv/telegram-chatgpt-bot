@@ -11,6 +11,7 @@ def log_execution(func):
         print(f"{func.__name__} - {args}, {kwargs}")
         print(" #################### ")
         return func(*args, **kwargs)
+    print(f" log result: {wrapper} ")
     return wrapper
 
 def callback(result):
