@@ -18,8 +18,9 @@ def callback(result):
     print(f"The calculation result is: {result}")
 
 def process_data(data, callback_func):
+    data_multiplier = 50
     print(f"Processing data: {data}")
-    processed_result = data * 50
+    processed_result = data * data_multiplier
     callback_func(processed_result)
 
 def log_request(**kwargs):
