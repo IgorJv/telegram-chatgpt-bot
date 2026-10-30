@@ -1,12 +1,15 @@
+from email import message
+
 from telegram import Update
 from telegram.ext import ApplicationBuilder, MessageHandler, filters, \
     CallbackQueryHandler, CommandHandler, ContextTypes
 from credentials import ChatGPT_TOKEN
-from gpt import ChatGptService
+from gpt import ChatGptService, log_execution
 from util import load_message, load_prompt, send_text_buttons, send_text, \
     send_image, show_main_menu, Dialog, default_callback_handler
 
 
+@log_execution
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     dialog.mode = 'main'
 
@@ -26,6 +29,9 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         # 'command': 'button text'
     })
 
+    answer = await chat_gpt.add_message(update.message.text)
+    await message.edit_text(answer)
+
 dialog = Dialog()
 dialog.mode = None
 
@@ -37,6 +43,7 @@ app.add_handler(CommandHandler('start', start))
 
 # You can register a command handler like this:
 # app.add_handler(CommandHandler('command', handler_func))
+@log_execution
 async def gpt_dialog(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_text = update.message.text
 
@@ -46,7 +53,7 @@ async def gpt_dialog(update: Update, context: ContextTypes.DEFAULT_TYPE):
     answer = await chat_gpt.add_message(user_text)
     await message.edit_text(answer)
 
-
+@log_execution
 async def text_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     '''
         :param update:
@@ -77,7 +84,7 @@ quiz_data = {
     'task_4': 'history'
 }
 
-
+@log_execution
 async def quiz(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # prompt the user to choose a quiz topic
     await send_text_buttons(
@@ -87,7 +94,7 @@ async def quiz(update: Update, context: ContextTypes.DEFAULT_TYPE):
         quiz_data
     )
 
-
+@log_execution
 async def quiz_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
     btn = update.callback_query.data
     await update.callback_query.answer()
@@ -100,12 +107,12 @@ async def quiz_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
     answer = await chat_gpt.add_message(to_chatgpt)
     await message.edit_text(answer)
 
-
+@log_execution
 async def random_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.callback_query.answer()
     await random(update, context)
 
-
+@log_execution
 async def gpt(update: Update, context: ContextTypes.DEFAULT_TYPE):
     dialog.mode = 'gpt'
     prompt = load_prompt('gpt')
@@ -113,7 +120,7 @@ async def gpt(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_gpt.set_prompt(prompt)
     await send_image(update, context, 'gpt')
     await send_text(update, context, message)
-
+    await show_main_menu(update, context, message)
 
 app.add_handler(CommandHandler('gpt', gpt))
 app.add_handler(CommandHandler('random', random))

@@ -1,19 +1,56 @@
+import functools
+
 from openai import OpenAI
 import httpx as httpx
 
 
+def log_execution(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        print(" #################### ")
+        print(f"{func.__name__} - {args}, {kwargs}")
+        print(" #################### ")
+        return func(*args, **kwargs)
+    print(f" log result: {wrapper} ")
+    return wrapper
+
+def callback(result):
+    print(f"The calculation result is: {result}")
+
+def process_data(data, callback_func):
+    data_multiplier = 50
+    print(f"Processing data: {data}")
+    processed_result = data * data_multiplier
+    callback_func(processed_result)
+
+def log_request(**kwargs):
+    print(f"Request: {kwargs}")
+    for key, value in kwargs.items():
+        print(f"{key}: {value}")
+
 class ChatGptService:
     client: OpenAI = None
     message_list: list = None
+    number_of_requests: int = None
+    retries: int = None
+    request_cache: dict = None
+    local_address: str = None
+    username: str = None
 
     def __init__(self, token):
         token = "sk-proj-" + token[:3:-1] if token.startswith('gpt:') else token
         self.client = OpenAI(
-            http_client=httpx.Client(proxies="http://18.199.183.77:49232"),
+            http_client=httpx.Client(),
             api_key=token)
         self.message_list = []
+        self.request_cache = {"": ""}
+        self.local_address = "http://localhost:8080"
+        self.username = "sk-proj"
+        self.number_of_requests = 3
 
+    @log_execution
     async def send_message_list(self) -> str:
+        retries = self.number_of_requests
         completion = self.client.chat.completions.create(
             model="gpt-3.5-turbo",  # gpt-4o,  gpt-4-turbo,    gpt-3.5-turbo,  GPT-4o mini
             messages=self.message_list,
@@ -22,18 +59,91 @@ class ChatGptService:
         )
         message = completion.choices[0].message
         self.message_list.append(message)
+        calculated_result = await self.calculate(self.number_of_requests, retries)
+        print(f"calculated result: {calculated_result}")
         return message.content
 
+    @log_execution
     def set_prompt(self, prompt_text: str) -> None:
         self.message_list.clear()
         self.message_list.append({"role": "system", "content": prompt_text})
 
+    @log_execution
     async def add_message(self, message_text: str) -> str:
         self.message_list.append({"role": "user", "content": message_text})
         return await self.send_message_list()
 
+    @log_execution
     async def send_question(self, prompt_text: str, message_text: str) -> str:
         self.message_list.clear()
         self.message_list.append({"role": "system", "content": prompt_text})
         self.message_list.append({"role": "user", "content": message_text})
+        self.retries = self.number_of_requests
+        calculated_result = await self.calculate(self.number_of_requests, self.retries)
+        print(f"calculated result: {calculated_result}")
         return await self.send_message_list()
+
+    @log_execution
+    async def send_answer(self, prompt_text: str, message_text: str) -> str:
+        self.message_list.clear()
+        self.message_list.append({"role": "system", "content": prompt_text})
+        self.message_list.append({"role": "user", "content": message_text})
+        self.retries = self.number_of_requests
+        calculated_result = await self.calculate(self.number_of_requests, self.retries)
+        print(f"calculated result: {calculated_result}")
+        return await self.send_message_list()
+
+    @log_execution
+    async def add_question(self, question_text: str) -> str:
+        self.message_list.clear()
+        self.message_list.append({"role": "user", "content": question_text})
+        self.message_list.append({"role": "system", "content": question_text})
+        calculated_result = await self.calculate(self.number_of_requests, self.retries)
+        print(f"calculated result: {calculated_result}")
+        return await self.send_message_list()
+
+    @log_execution
+    async def add_answer(self, answer_text: str) -> str:
+        self.message_list.clear()
+        self.message_list.append({"role": "user", "content": answer_text})
+        self.message_list.append({"role": "system", "content": answer_text})
+        await self.consume_response(answer_text, 1)
+        calculated_result = await self.calculate(self.number_of_requests, self.retries)
+        print(f"calculated result: {calculated_result}")
+        return await self.send_message_list()
+
+    @log_execution
+    async def calculate(self, number_of_requests, retries) -> str:
+        print('Calculating GPT...')
+        prompt_text = await self.send_question("test_question")
+        print(prompt_text)
+        request_text = self.get_from_cache(prompt_text)
+        for i in range(number_of_requests):
+            print(f"request: {self.local_address}/account/user/{i}")
+            if i < retries:
+                request_text += f"\n{i}"
+            print(f"response: {self.local_address}account/user/{i}")
+            log_request(k=i, v=request_text)
+            await self.consume_request(request_text, retries)
+        print("Sending answer...")
+        prompt_text = await self.send_answer("test_answer", retries)
+        print(prompt_text)
+        process_data(self.number_of_requests, callback)
+        return request_text
+
+    @staticmethod
+    async def consume_request(request_text: str, request_number: int) -> str:
+        print(f"{request_text} - {request_number}")
+        return request_text.join(" #################### ")
+
+    @staticmethod
+    async def consume_response(response_text: str, response_number: int) -> str:
+        print(f"{response_text} - {response_number}")
+        return response_text.join(" #################### ")
+
+    @log_execution
+    def get_from_cache(self, prompt_text: str) -> str:
+        if prompt_text in self.request_cache:
+            return self.request_cache[prompt_text]
+        print(f"{prompt_text} - {len(self.request_cache)}")
+        return self.local_address + "/account/user/"
