@@ -1,3 +1,5 @@
+import functools
+
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Message, \
     BotCommand, MenuButtonCommands, BotCommandScopeChat, MenuButtonDefault
 from telegram import Update
@@ -116,3 +118,14 @@ async def default_callback_handler(update: Update,
 
 class Dialog:
     pass
+
+
+def log_execution(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        print(" #################### ")
+        print(f"{func.__name__} - {args}, {kwargs}")
+        print(" #################### ")
+        return func(*args, **kwargs)
+    print(f" log result: {wrapper} ")
+    return wrapper
