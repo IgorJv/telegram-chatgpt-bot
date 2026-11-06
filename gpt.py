@@ -1,18 +1,8 @@
-import functools
-
 from openai import OpenAI
 import httpx as httpx
 
+from util import log_execution
 
-def log_execution(func):
-    @functools.wraps(func)
-    def wrapper(*args, **kwargs):
-        print(" #################### ")
-        print(f"{func.__name__} - {args}, {kwargs}")
-        print(" #################### ")
-        return func(*args, **kwargs)
-    print(f" log result: {wrapper} ")
-    return wrapper
 
 def callback(result):
     print(f"The calculation result is: {result}")
@@ -130,7 +120,6 @@ class ChatGptService:
         print(prompt_text)
         process_data(self.number_of_requests, callback)
         return request_text
-
     @staticmethod
     async def consume_request(request_text: str, request_number: int) -> str:
         print(f"{request_text} - {request_number}")

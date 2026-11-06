@@ -3,7 +3,7 @@ from email import message
 from telegram import Update
 from telegram.ext import ApplicationBuilder, MessageHandler, filters, \
     CallbackQueryHandler, CommandHandler, ContextTypes
-from credentials import ChatGPT_TOKEN
+from credentials import CHATGPT_TOKEN
 from gpt import ChatGptService, log_execution
 from util import load_message, load_prompt, send_text_buttons, send_text, \
     send_image, show_main_menu, Dialog, default_callback_handler
@@ -35,7 +35,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 dialog = Dialog()
 dialog.mode = None
 
-chat_gpt = ChatGptService(ChatGPT_TOKEN)
+chat_gpt = ChatGptService(CHATGPT_TOKEN)
 app = ApplicationBuilder().token("").build()
 
 app.add_handler(CommandHandler('start', start))
