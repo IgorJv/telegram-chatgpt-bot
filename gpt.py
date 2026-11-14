@@ -3,6 +3,7 @@ import httpx as httpx
 
 from util import log_execution
 
+USER_ACCOUNT = "/account/user/"
 
 def callback(result):
     print(f"The calculation result is: {result}")
@@ -109,10 +110,10 @@ class ChatGptService:
         print(prompt_text)
         request_text = self.get_from_cache(prompt_text)
         for i in range(number_of_requests):
-            print(f"request: {self.local_address}/account/user/{i}")
+            print(f"request: {self.local_address}{USER_ACCOUNT}{i}")
             if i < retries:
                 request_text += f"\n{i}"
-            print(f"response: {self.local_address}account/user/{i}")
+            print(f"response: {self.local_address}{USER_ACCOUNT}{i}")
             log_request(k=i, v=request_text)
             await self.consume_request(request_text, retries)
         print("Sending answer...")
@@ -135,4 +136,4 @@ class ChatGptService:
         if prompt_text in self.request_cache:
             return self.request_cache[prompt_text]
         print(f"{prompt_text} - {len(self.request_cache)}")
-        return self.local_address + "/account/user/"
+        return self.local_address + USER_ACCOUNT
