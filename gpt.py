@@ -4,6 +4,7 @@ import httpx as httpx
 from util import log_execution
 
 USER_ACCOUNT = "/account/user/"
+LOCAL_ADDRESS = "http://localhost:8080"
 
 def callback(result):
     print(f"The calculation result is: {result}")
@@ -35,7 +36,7 @@ class ChatGptService:
             api_key=token)
         self.message_list = []
         self.request_cache = {"": ""}
-        self.local_address = "http://localhost:8080"
+        self.local_address = LOCAL_ADDRESS
         self.username = "sk-proj"
         self.number_of_requests = 3
 
