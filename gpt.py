@@ -5,6 +5,7 @@ from util import log_execution
 
 USER_ACCOUNT = "/account/user/"
 LOCAL_ADDRESS = "http://localhost:8080"
+SK_PROJ = "sk-proj"
 
 def callback(result):
     print(f"The calculation result is: {result}")
@@ -30,14 +31,14 @@ class ChatGptService:
     username: str = None
 
     def __init__(self, token):
-        token = "sk-proj-" + token[:3:-1] if token.startswith('gpt:') else token
+        token = SK_PROJ + "-" + token[:3:-1] if token.startswith('gpt:') else token
         self.client = OpenAI(
             http_client=httpx.Client(),
             api_key=token)
         self.message_list = []
         self.request_cache = {"": ""}
         self.local_address = LOCAL_ADDRESS
-        self.username = "sk-proj"
+        self.username = SK_PROJ
         self.number_of_requests = 3
 
     @log_execution
