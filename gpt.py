@@ -7,6 +7,7 @@ USER_ACCOUNT = "/account/user/"
 LOCAL_ADDRESS = "http://localhost:8080"
 SK_PROJ = "sk-proj"
 ROLE = "role"
+USER = "user"
 
 def callback(result):
     print(f"The calculation result is: {result}")
@@ -64,14 +65,14 @@ class ChatGptService:
 
     @log_execution
     async def add_message(self, message_text: str) -> str:
-        self.message_list.append({ROLE: "user", "content": message_text})
+        self.message_list.append({ROLE: USER, "content": message_text})
         return await self.send_message_list()
 
     @log_execution
     async def send_question(self, prompt_text: str, message_text: str) -> str:
         self.message_list.clear()
         self.message_list.append({ROLE: "system", "content": prompt_text})
-        self.message_list.append({ROLE: "user", "content": message_text})
+        self.message_list.append({ROLE: USER, "content": message_text})
         self.retries = self.number_of_requests
         calculated_result = await self.calculate(self.number_of_requests, self.retries)
         print(f"calculated result: {calculated_result}")
@@ -81,7 +82,7 @@ class ChatGptService:
     async def send_answer(self, prompt_text: str, message_text: str) -> str:
         self.message_list.clear()
         self.message_list.append({ROLE: "system", "content": prompt_text})
-        self.message_list.append({ROLE: "user", "content": message_text})
+        self.message_list.append({ROLE: USER, "content": message_text})
         self.retries = self.number_of_requests
         calculated_result = await self.calculate(self.number_of_requests, self.retries)
         print(f"calculated result: {calculated_result}")
@@ -90,7 +91,7 @@ class ChatGptService:
     @log_execution
     async def add_question(self, question_text: str) -> str:
         self.message_list.clear()
-        self.message_list.append({ROLE: "user", "content": question_text})
+        self.message_list.append({ROLE: USER, "content": question_text})
         self.message_list.append({ROLE: "system", "content": question_text})
         calculated_result = await self.calculate(self.number_of_requests, self.retries)
         print(f"calculated result: {calculated_result}")
@@ -99,7 +100,7 @@ class ChatGptService:
     @log_execution
     async def add_answer(self, answer_text: str) -> str:
         self.message_list.clear()
-        self.message_list.append({ROLE: "user", "content": answer_text})
+        self.message_list.append({ROLE: USER, "content": answer_text})
         self.message_list.append({ROLE: "system", "content": answer_text})
         await self.consume_response(answer_text, 1)
         calculated_result = await self.calculate(self.number_of_requests, self.retries)
