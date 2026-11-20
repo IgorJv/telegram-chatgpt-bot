@@ -12,7 +12,7 @@ CONTENT = "content"
 
 def callback(result):
     print(f"The calculation result is: {result}")
-
+###
 def process_data(data, callback_func):
     data_multiplier = 50
     print(f"Processing data: {data}")
