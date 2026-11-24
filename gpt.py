@@ -10,6 +10,7 @@ ROLE = "role"
 USER = "user"
 CONTENT = "content"
 SYSTEM = "system"
+TEST_USER = "test-user"
 
 def callback(result):
     print(f"The calculation result is: {result}")
