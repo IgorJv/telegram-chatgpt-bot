@@ -11,6 +11,8 @@ USER = "user"
 CONTENT = "content"
 SYSTEM = "system"
 TEST_USER = "test-user"
+TEST_QUESTION = "test-question"
+TEST_ANSWER = "test_answer"
 
 def callback(result):
     print(f"The calculation result is: {result}")
@@ -113,7 +115,7 @@ class ChatGptService:
     @log_execution
     async def calculate(self, number_of_requests, retries) -> str:
         print('Calculating GPT...')
-        prompt_text = await self.send_question("test_question")
+        prompt_text = await self.send_question(TEST_QUESTION)
         print(prompt_text)
         request_text = self.get_from_cache(prompt_text)
         for i in range(number_of_requests):
@@ -124,7 +126,7 @@ class ChatGptService:
             log_request(k=i, v=request_text)
             await self.consume_request(request_text, retries)
         print("Sending answer...")
-        prompt_text = await self.send_answer("test_answer", retries)
+        prompt_text = await self.send_answer(TEST_ANSWER, retries)
         print(prompt_text)
         process_data(self.number_of_requests, callback)
         return request_text
