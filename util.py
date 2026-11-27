@@ -6,6 +6,7 @@ from telegram import Update
 from telegram.constants import ParseMode
 from telegram.ext import ContextTypes
 
+UTF_16 = 'utf-16'
 
 # serializes a User object into a string representation
 def dialog_user_info_to_str(user_data: dict) -> str:
@@ -37,7 +38,7 @@ async def send_text(
         return await update.message.reply_text(message)
 
     # handle surrogate pairs correctly
-    text = text.encode('utf-16', errors='surrogatepass').decode('utf-16')
+    text = text.encode(UTF_16, errors='surrogatepass').decode(UTF_16)
 
     return await context.bot.send_message(
         chat_id=update.effective_chat.id,
@@ -49,7 +50,7 @@ async def send_text(
 # sends an HTML-formatted text message to the chat
 async def send_html(update: Update, context: ContextTypes.DEFAULT_TYPE,
                     text: str) -> Message:
-    text = text.encode('utf16', errors='surrogatepass').decode('utf16')
+    text = text.encode(UTF_16, errors='surrogatepass').decode(UTF_16)
     return await context.bot.send_message(chat_id=update.effective_chat.id,
                                           text=text, parse_mode=ParseMode.HTML)
 
@@ -57,7 +58,7 @@ async def send_html(update: Update, context: ContextTypes.DEFAULT_TYPE,
 # sends a text message to the chat and attaches buttons
 async def send_text_buttons(update: Update, context: ContextTypes.DEFAULT_TYPE,
                             text: str, buttons: dict) -> Message:
-    text = text.encode('utf16', errors='surrogatepass').decode('utf16')
+    text = text.encode(UTF_16, errors='surrogatepass').decode(UTF_16)
     keyboard = []
     for key, value in buttons.items():
         button = InlineKeyboardButton(str(value), callback_data=str(key))
